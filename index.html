@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เมนูอาหาร | ร้าน PHET</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; background: #f9f9f9; }
+    header { background: #333; color: white; padding: 1rem; text-align: center; }
+    main { padding: 1rem; max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 1rem; font-weight: bold; }
+    input, select { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
+    button { margin-top: 1rem; padding: 0.75rem; width: 100%; background: #28a745; color: white; border: none; font-size: 1rem; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #218838; }
+    .orders { margin-top: 2rem; background: #fff; padding: 1rem; border-radius: 8px; }
+    .orders h3 { margin-bottom: 0.5rem; }
+    .order-item { padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+  </style>
+</head>
+<body>
+
+  <header>
+    เมนูอาหารร้าน PHET
+  </header>
+
+  <main>
+    <form id="orderForm">
+      <label for="menu">เลือกเมนู</label>
+      <select id="menu" required>
+        <option value="">-- กรุณาเลือกเมนู --</option>
+        <option value="ข้าวกระเพรา">ข้าวกระเพรา - 50 บาท</option>
+        <option value="ข้าวผัด">ข้าวผัด - 45 บาท</option>
+        <option value="ผัดไทย">ผัดไทย - 60 บาท</option>
+      </select>
+
+      <label for="quantity">จำนวน</label>
+      <input type="number" id="quantity" min="1" value="1" required />
+
+      <label for="note">หมายเหตุ (ถ้ามี)</label>
+      <input type="text" id="note" placeholder="เช่น ไม่เผ็ด, ไม่ใส่ผัก" />
+
+      <button type="submit">ส่งคำสั่งซื้อ</button>
+    </form>
+
+    <div class="orders" id="orders">
+      <h3>คำสั่งซื้อของลูกค้า</h3>
+      <div id="orderList">
+        <p>ยังไม่มีคำสั่งซื้อ</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    const orderList = document.getElementById('orderList');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const menu = document.getElementById('menu').value;
+      const qty = document.getElementById('quantity').value;
+      const note = document.getElementById('note').value;
+
+      const itemHTML = `
+        <div class="order-item">
+          <strong>เมนู:</strong> ${menu}<br>
+          <strong>จำนวน:</strong> ${qty}<br>
+          ${note ? `<strong>หมายเหตุ:</strong> ${note}<br>` : ''}
+        </div>
+      `;
+
+      if (orderList.innerHTML.includes("ยังไม่มีคำสั่งซื้อ")) {
+        orderList.innerHTML = "";
+      }
+
+      orderList.innerHTML += itemHTML;
+
+      form.reset();
+      document.getElementById('quantity').value = 1;
+    });
+  </script>
+
+</body>
+</html>
